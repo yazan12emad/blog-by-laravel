@@ -6,16 +6,18 @@
 
         <form id="form" method="post" action="/ideas" class="w-full max-w-xl ">
             @csrf{{-- to create a input field (random token ) --}}
-            <div class="col-span-full">
-                <label for="about" class="block text-2xl font-bold text-black m-2">About</label>
+            <div class="col-span-full bg-gray-700 border-base-300 rounded-box p-6 mx-auto mt-5">
+                <label for="about" class="block text-2xl font-bold text-gray-50 m-2">About</label>
                 <div class="mt-2">
-                <textarea id="description" name="description" rows="3" class="block w-full  max-w-xl rounded-md bg-gray-500
-                  px-3 py-1.5 text-base text-white font-bold outline-1 -outline-offset-1
+
+                <textarea id="description" name="description" rows="3" class="block w-full border-none
+                max-w-xl rounded-md bg-gray-500 px-3 py-1.5 text-base text-white font-bold outline-1 -outline-offset-1
                  outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2
                  focus:outline-indigo-500 " placeholder="Your ideas" ></textarea>
                 </div>
+
             </div>
-            {{-- error message            --}}
+            {{-- error message       --}}
             <x-error name="description"> </x-error>
 
 

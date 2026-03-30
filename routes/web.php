@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\Auth\SessionController;
 use App\Models\ideas;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
@@ -19,23 +21,43 @@ Route::view('about', "about");
 
 Route::view('notes', "notes");
 
+Route::middleware('auth')->group(function () {
 
 //index - show all ideas
-Route::get('ideas', [ideaController::class, 'index']);
+    Route::get('ideas', [ideaController::class, 'index']);
 // create - show form
-Route::get('ideas/create', [ideaController::class, 'create']);
+    Route::get('ideas/create', [ideaController::class, 'create']);
 //show - show one idea
-Route::get('ideas/{idea}', [ideaController::class, 'show']);
+    Route::get('ideas/{idea}', [ideaController::class, 'show']);
 // store idea
-Route::post('ideas', [ideaController::class, 'store']);
+    Route::post('ideas', [ideaController::class, 'store']);
 // edit idea
-Route::get('ideas/{idea}/edit', [ideaController::class, 'edit']);
+    Route::get('ideas/{idea}/edit', [ideaController::class, 'edit']);
 // update idea
-Route::patch('ideas/{idea}', [ideaController::class, 'update']);
+    Route::patch('ideas/{idea}', [ideaController::class, 'update']);
 //destroy
-Route::delete('ideas/{idea}', [ideaController::class, 'destroy']);
+    Route::delete('ideas/{idea}', [ideaController::class, 'destroy']);
 //All the routes can be simplified to this line
 //Route::resource('ideas', ideaController::class);
+
+    Route::delete('logout' , [SessionController::class , 'destroy']);
+
+});
+
+
+Route::middleware('guest')->group(function () {
+
+    Route::get('register' , [RegisterUserController::class , 'create']);
+    Route::post('register' , [RegisterUserController::class , 'store']);
+
+
+    Route::get('logIn' , [SessionController::class , 'create']);
+    Route::post('logIn' , [SessionController::class , 'store']);
+});
+
+
+
+
 
 Route::fallback(function () {
     return redirect('Home');

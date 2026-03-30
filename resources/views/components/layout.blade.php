@@ -52,27 +52,28 @@ This is the layout component that will be used in all the pages of the website
             display: flex;
         }
 
+        .listedLinks{
+            transition: transform 0.3s ease ;
+        }
+
+        .listedLinks:hover{
+            font-weight: bold;
+
+            transform: scale(1.1);
+        }
+
+        .listedLinks:active{
+            font-weight: bold;
+            transform: scale(1);
+        }
+
 
     </style>
 </head>
 
-<body class=" ">
-{{--    <header>--}}
-{{--    <div class="container1">--}}
-{{--        <div class="navbar w-fit mx-auto gap-4 border-2 p-6 m-2 rounded-full">--}}
-{{--            <a href="/">Home page</a>--}}
-{{--            <a href="/about">About Us</a>--}}
-{{--            <a href="/contact">Contact Us</a>--}}
-{{--            <a href="/ideas">show Ideas</a>--}}
-{{--            <a href="/ideas/create">Form link</a>--}}
-{{--            <a href="/notes">Notes file</a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    </header>--}}
+<body class="bg-base-200">
 
 <x-nav></x-nav>
-
-
 <main>
 
     {{ $slot }}
