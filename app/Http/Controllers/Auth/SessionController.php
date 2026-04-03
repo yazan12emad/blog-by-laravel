@@ -34,12 +34,12 @@ class SessionController extends Controller
             'password' => $request->password])) {
             $request->session()->regenerate();
 
+
         return redirect('/ideas');
     }
 
         return back()->withErrors([
         'email' =>'These credentials do not match our records.' ]);
-
     }
 
 
