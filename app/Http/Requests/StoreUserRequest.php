@@ -20,24 +20,23 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
-                'name' => 'required|string|max:20',
-                'email'=> 'required|string|email|max:30|unique:users',
-                'password'=> 'required|string',
-             ];
-
-
-
+            'name' => 'required|string|max:20',
+            'email' => 'required|string|email|max:30|unique:users',
+            'password' => 'min:8|required|confirmed',
+        ];
     }
 
-    public function messages(): array{
+    public function messages(): array
+    {
         return [
             'name.required' => 'Please enter name',
             'email.required' => 'Please enter email',
             'password.required' => 'Please enter password',
+            'password.confirmed' => 'The password confirmation does not match',
         ];
     }
-
 }

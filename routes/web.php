@@ -40,24 +40,19 @@ Route::middleware('auth')->group(function () {
 //All the routes can be simplified to this line
 //Route::resource('ideas', ideaController::class);
 
-    Route::delete('logout' , [SessionController::class , 'destroy']);
+    Route::delete('logout', [SessionController::class, 'logout']);
 
 });
-
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('register' , [RegisterUserController::class , 'create']);
-    Route::post('register' , [RegisterUserController::class , 'store']);
+    Route::get('register', [RegisterUserController::class, 'showRegisterPage']);
+    Route::post('register', [RegisterUserController::class, 'register']);
 
 
-    Route::get('logIn' , [SessionController::class , 'create']);
-    Route::post('logIn' , [SessionController::class , 'store']);
+    Route::get('logIn', [SessionController::class, 'showLogInPage']);
+    Route::post('logIn', [SessionController::class, 'LogIn']);
 });
-
-
-
-
 
 Route::fallback(function () {
     return redirect('Home');

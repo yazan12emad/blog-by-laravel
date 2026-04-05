@@ -15,6 +15,8 @@
                 <label class="label mt-2">Password</label>
                 <input type="password" name="password" class="input w-full" placeholder="Password" required/>
                 <x-error name="password"></x-error>
+                <label class="label mt-2">Confirm Password</label>
+                <input type="password" name="password_confirmation" class="input w-full" placeholder="Confirm Password" required/>
                 <button class="btn btn-neutral mt-4 w-full">Register</button>
             </fieldset>
         </main>

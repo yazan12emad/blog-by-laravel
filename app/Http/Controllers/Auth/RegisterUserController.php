@@ -10,22 +10,22 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterUserController extends Controller
 {
-    public function create()
+    public function showRegisterPage ()
     {
         return view('auth.register');
     }
 
-    public function store(StoreUserRequest $request)
+    public function register(StoreUserRequest $request)
     {
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        // Log the user in
         auth()->login($user);
+        $request->session()->regenerate();
+
 
         // Redirect to home page
         return redirect('/')->with('success', 'Registration successful!');
