@@ -49,7 +49,6 @@ Route::middleware('guest')->group(function () {
     Route::get('register', [RegisterUserController::class, 'showRegisterPage']);
     Route::post('register', [RegisterUserController::class, 'register']);
 
-
     Route::get('logIn', [SessionController::class, 'showLogInPage']);
     Route::post('logIn', [SessionController::class, 'LogIn']);
 });

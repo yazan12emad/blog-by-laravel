@@ -43,7 +43,7 @@ class SessionController extends Controller
         RateLimiter::hit($key, 60);
 
         return back()->withErrors([
-            'email' => 'These credentials do not match our records.'
+            'email' => 'These Email do not match our records.'
         ]);
     }
 

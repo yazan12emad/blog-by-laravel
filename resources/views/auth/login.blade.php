@@ -13,7 +13,10 @@
                 <label class="label mt-2">Password</label>
                 <input type="password" name="password" class="input w-full" placeholder="Password" required/>
                 <x-error name="password"></x-error>
-
+                <label class="mt-2 ">
+                    <input class="checkbox" type="checkbox" name="remember">
+                    Remember Me
+                </label>
                 <button class="btn btn-neutral mt-4 w-full">Log In </button>
             </fieldset>
         </main>
