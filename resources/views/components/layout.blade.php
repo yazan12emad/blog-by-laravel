@@ -8,9 +8,8 @@ This is the layout component that will be used in all the pages of the website
  The $slot variable is used to display the content of the component
  The $title variable is used to set the title of the page
 --}}
-
     <!doctype html>
-<html lang="en" data-theme="night">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,13 +19,11 @@ This is the layout component that will be used in all the pages of the website
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css"/>
 
     <style>
-
         body {
             padding: 0;
             margin: 0;
             font-family: sans-serif;
         }
-
         .navbar > a {
             display: inline-block;
             text-decoration: none;
@@ -37,41 +34,38 @@ This is the layout component that will be used in all the pages of the website
             transition: color 0.3s ease, transform 0.3s ease;
 
         }
-
         .navbar > a:hover {
             color: #15a6d3;
             transform: scale(1.1);
         }
-
         .navbar > a:active {
             color: #15a6d3;
             transform: scale(1);
         }
-
         .container1 {
             display: flex;
         }
-
-        .listedLinks{
-            transition: transform 0.3s ease ;
+        .listedLinks {
+            transition: transform 0.3s ease;
         }
-
-        .listedLinks:hover{
+        .listedLinks:hover {
             font-weight: bold;
 
             transform: scale(1.1);
         }
-
-        .listedLinks:active{
+        .listedLinks:active {
             font-weight: bold;
             transform: scale(1);
+        }
+        .no{
+            background: red;
         }
 
 
     </style>
 </head>
 
-<body class="bg-base-200">
+<body class=" min-h-full ">
 
 <x-nav></x-nav>
 <main>

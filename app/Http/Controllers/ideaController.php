@@ -15,39 +15,32 @@ class ideaController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = auth()->user();
         $ideas = $user->ideas()->get();
-//        return $ideas;
 
         return view('ideas.index', [
-            'ideas' => $ideas,
+            'ideas' => [],
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('ideas.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(storeIdeaRequest $request)
     {
         ideas::create([
-            'description' => request('description'),
+            'description' => $request->description,
             'state' => 'pending',
             'user_id' => auth()->id(),
         ]);
+
         return redirect('ideas');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(ideas $idea)
     {
         return view('ideas.show', [
@@ -71,7 +64,7 @@ class ideaController extends Controller
     public function update(updateIdeaRequest $request, ideas $idea)
     {
         $idea->update([
-            'description' => request('description'),
+            'description' => $request->description,
         ]);
         return redirect('ideas');
     }

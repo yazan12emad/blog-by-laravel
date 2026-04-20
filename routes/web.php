@@ -1,25 +1,27 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterUserController;
-use App\Http\Controllers\Auth\SessionController;
-use App\Models\ideas;
-use Illuminate\Database\Eloquent\Builder;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ideaController;
 
-
-Route::get('Home', function () {
+$homePage = function () {
     return view('welcome', [
         'tasks' => [],
-        'name' => request('name', 'yazan'),
+        'name' => request('name', auth()->user()?->name ?? 'Guest'),
     ]);
-});
+};
+
+Route::get('/', $homePage);
+Route::get('Home', $homePage);
 
 Route::view('contact', "contact");
 
 Route::view('about', "about");
 
 Route::view('notes', "notes");
+
+
 
 Route::middleware('auth')->group(function () {
 
@@ -40,23 +42,28 @@ Route::middleware('auth')->group(function () {
 //All the routes can be simplified to this line
 //Route::resource('ideas', ideaController::class);
 
-    Route::delete('logout', [SessionController::class, 'logout']);
+    Route::delete('logout', [AuthController::class, 'logout']);
+
+
+    Route::get('profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
+
+    Route::patch('profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
 
 });
 
+
+
 Route::middleware('guest')->group(function () {
 
-    Route::get('register', [RegisterUserController::class, 'showRegisterPage']);
-    Route::post('register', [RegisterUserController::class, 'register']);
+    Route::get('register', [AuthController::class, 'showRegisterPage'])->name('register');
+    Route::post('register', [AuthController::class, 'register']);
 
-    Route::get('logIn', [SessionController::class, 'showLogInPage']);
-    Route::post('logIn', [SessionController::class, 'LogIn']);
+    Route::get('logIn', [AuthController::class, 'showLogInPage'])->name('LogIn');
+    Route::post('logIn', [AuthController::class, 'LogIn']);
 });
 
 Route::fallback(function () {
     return redirect('Home');
 });
-
-
 
 

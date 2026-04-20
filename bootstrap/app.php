@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->redirectGuestsTo('logIn');
+        $middleware->redirectGuestsTo(fn() => route('LogIn'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

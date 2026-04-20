@@ -10,11 +10,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
-#[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    protected $fillable = ['name', 'email', 'profile_image', 'password'];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -39,4 +41,12 @@ class User extends Authenticatable
         return true;
     }
 
+   public function getProfileImageURLAttribute(): string
+   {
+        if($this-> profile_image){
+            return Storage::url($this-> profile_image);
+        }
+        return Storage::url('user_uploaded_profile_image/default_user_profile_image.png');
+
+   }
 }
