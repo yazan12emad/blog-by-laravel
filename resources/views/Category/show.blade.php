@@ -91,7 +91,7 @@
 
 
                         <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                            <a href="{{ route('blog.by.category', ['category'=> $category->id, 'name'=> $category->name]) }}"
+                            <a href="{{ route('blog.by.category', ['category'=> $category->id]) }}"
                                class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-200">
                                 View
                             </a>

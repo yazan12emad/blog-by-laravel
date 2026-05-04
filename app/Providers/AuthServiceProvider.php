@@ -32,5 +32,12 @@ class AuthServiceProvider extends ServiceProvider
             return true;
                 return false;
         });
+
+        Gate::define('user-blog', function($user , $blog){
+            if($user->id == $blog->author_id || $user->role == 'admin'){
+                return true;
+            }
+            return false;
+        });
     }
 }

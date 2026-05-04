@@ -25,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
             return $user->isAdmin();
 
         });
+
+        Gate::define('user-blog', function($user, $blog){
+            return $user->id == $blog->author_id || $user->isAdmin();
+        });
     }
 }

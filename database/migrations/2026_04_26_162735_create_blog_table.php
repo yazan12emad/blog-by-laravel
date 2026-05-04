@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blog', function (Blueprint $table) {
+        Schema::create('blogSeedes', function (Blueprint $table) {
             $table->id()->primary()->autoIncrement();
             $table->unsignedBigInteger('author_id');
             $table->string('title');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blog');
+        Schema::dropIfExists('blogSeedes');
     }
 };

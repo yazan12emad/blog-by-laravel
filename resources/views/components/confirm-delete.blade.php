@@ -6,11 +6,12 @@
     'message' => null,
     'buttonText' => 'Delete',
     'confirmText' => 'Yes, delete',
+    'buttonClass' => 'inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-rose-800 bg-rose-950/30 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-950/50',
 ])
 
 <button type="button"
         onclick="document.getElementById('{{ $modalId }}').showModal()"
-        class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-rose-800 bg-rose-950/30 px-4 py-3 text-sm font-semibold text-rose-200 transition hover:bg-rose-950/50">
+        class="{{ $buttonClass }}">
     {{ $buttonText }}
 </button>
 

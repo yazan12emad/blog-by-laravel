@@ -14,19 +14,7 @@ $homePage = function () {
     ]);
 };
 
-Route::get('/', $homePage);
-
 Route::get('Home', $homePage);
-
-Route::get('/Blogs', [BlogController::class, 'index']);
-
-
-
-Route::get('/blog/{category}/{name}', function (\App\Models\Category $category, $name) {
-    dd($category, $name);
-})->name('blog.by.category');
-
-
 
 Route::view('notes', "notes");
 
@@ -52,20 +40,28 @@ Route::middleware('auth')->group(function () {
     Route::post('/category/create', [CategoryController::class, 'store'])->name('category.store');
     Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
+    Route::get('/blogs/{blog}', [BlogController::class, 'showBlogDetails'])->name('blog.show.details');
+    Route::get('/blog/{category}', [BlogController::class, 'showBlogsByCategory'])->name('blog.by.category');
+    Route::patch('/blogs/update/{blog}', [BlogController::class, 'update'])->name('blog.update');
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blog.destroy');
+
+//    Route::middleware('role:admin')->group(function () {
+//        Route::get('admin', function () {
+//            dd('admin');
+//        })->name('admin');
+//    });
+
 });
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [AuthController::class, 'showRegisterPage'])->name('register');
     Route::post('register', [AuthController::class, 'register']);
-
     Route::get('logIn', [AuthController::class, 'showLogInPage'])->name('LogIn');
     Route::post('logIn', [AuthController::class, 'LogIn']);
 
 });
-
-Route::get('/category', [CategoryController::class, 'showCategory'])->name('category.show');
-
-
+Route::get('/Blogs', [BlogController::class, 'showBlogs'])->name('blogs.show');
+Route::get('/Category', [CategoryController::class, 'showCategory'])->name('category.show');
 
 
 Route::fallback(function () {

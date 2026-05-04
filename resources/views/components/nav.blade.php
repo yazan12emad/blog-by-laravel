@@ -67,11 +67,11 @@
                class="rounded-full px-4 py-2 text-sm font-medium transition {{ request()->path() === '/' ? 'bg-white text-slate-900' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                 Home
             </a>
-            <a href="/blogs"
+            <a href="{{route('blogs.show')}}"
                class="rounded-full px-4 py-2 text-sm font-medium transition {{ request()->is('blogs') || request()->is('blogs/*') ? 'bg-white text-slate-900' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                 Blogs
             </a>
-            <a href="/category"
+            <a href="{{route('category.show')}}"
                class="rounded-full px-4 py-2 text-sm font-medium transition {{ request()->is('category') || request()->is('category/*') ? 'bg-white text-slate-900' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                 Categories
             </a>

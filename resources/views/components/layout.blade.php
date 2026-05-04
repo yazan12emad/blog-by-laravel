@@ -1,5 +1,5 @@
 @props([
-    'title' => 'blog | laravel version'
+    'title' => 'blogSeedes | laravel version'
 ])
 
 <!doctype html>
