@@ -10,15 +10,16 @@ use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
+    public function __construct(private AuthServices $authServices){}
 
     public function showRegisterPage ()
     {
         return view('auth.register');
     }
-    public function register(StoreUserRequest $request , AuthServices $authServices)
+    public function register(StoreUserRequest $request )
     {
         try {
-            $user = $authServices->registerUser($request->validated());
+            $user = $this->authServices->registerUser($request->validated());
         }
         catch (\Exception $e) {
             return back()->withErrors([
@@ -35,7 +36,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function LogIn(logInRequest $request , AuthServices $authServices){
+    public function LogIn(logInRequest $request){
 
         $key = $request->email . $request->ip();
 
@@ -47,7 +48,7 @@ class AuthController extends Controller
         }
 
         try {
-          $user =   $authServices->logIn($request->validated());
+          $user =   $this->authServices->logIn($request->validated());
         }
         catch (\Exception $e) {
             RateLimiter::hit($key, 60);
@@ -63,9 +64,9 @@ class AuthController extends Controller
         return redirect('/')->with('success', 'Login successful!');
     }
 
-    public function logout(Request $request , AuthServices $authService)
+    public function logout(Request $request)
     {
-        $authService->logOut($request);
+        $this->authServices->logOut($request);
 
         return redirect('/')->with('success', 'Logged out successfully!');
     }

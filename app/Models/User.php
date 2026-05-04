@@ -13,9 +13,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
 #[Hidden(['password', 'remember_token'])]
+
 class User extends Authenticatable
 {
-    protected $fillable = ['name', 'email', 'profile_image', 'password'];
+    protected $fillable = ['name', 'email', 'profile_image', 'password', 'role'];
 
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -38,7 +39,12 @@ class User extends Authenticatable
     }
 
     public function isAdmin(): bool{
-        return true;
+        return $this->role =='admin';
+    }
+
+        public function getRoleAttribute(): string{
+            return $this->attributes['role'];
+
     }
 
    public function getProfileImageURLAttribute(): string

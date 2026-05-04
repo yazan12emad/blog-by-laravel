@@ -1,77 +1,57 @@
 @props([
-       'title' => 'blog | laravel version '
-   ])
-{{--
-This is the layout component that will be used in all the pages of the website
- the double {} is used to echo the content of the variable in the blade template
- The @props directive is used to define the properties that can be passed to the component
- The $slot variable is used to display the content of the component
- The $title variable is used to set the title of the page
---}}
-    <!doctype html>
+    'title' => 'blog | laravel version'
+])
+
+<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {{ $title }} </title>
+    <title>{{ $title }}</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css"/>
 
     <style>
+        :root {
+            color-scheme: dark;
+        }
+
         body {
-            padding: 0;
             margin: 0;
-            font-family: sans-serif;
-        }
-        .navbar > a {
-            display: inline-block;
-            text-decoration: none;
-            font-size: 20px;
-            margin-right: 20px;
-            color: #5a5adc;
-            font-weight: bold;
-            transition: color 0.3s ease, transform 0.3s ease;
-
-        }
-        .navbar > a:hover {
-            color: #15a6d3;
-            transform: scale(1.1);
-        }
-        .navbar > a:active {
-            color: #15a6d3;
-            transform: scale(1);
-        }
-        .container1 {
-            display: flex;
-        }
-        .listedLinks {
-            transition: transform 0.3s ease;
-        }
-        .listedLinks:hover {
-            font-weight: bold;
-
-            transform: scale(1.1);
-        }
-        .listedLinks:active {
-            font-weight: bold;
-            transform: scale(1);
-        }
-        .no{
-            background: red;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #0b1120 0%, #111827 100%);
+            color: #e5e7eb;
         }
 
+        .app-shell {
+            min-height: 100vh;
+        }
 
+        .page-content {
+            width: min(100%, 1200px);
+            margin: 0 auto;
+            padding: 1.5rem 1rem 2.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .page-content {
+                padding: 2rem 1.5rem 3rem;
+            }
+        }
     </style>
+
+    @stack('styles')
 </head>
 
-<body class=" min-h-full ">
+<body>
+<div class="app-shell">
+    <x-nav />
 
-<x-nav></x-nav>
-<main>
-
-    {{ $slot }}
-
-</main>
+    <main class="page-content">
+        {{ $slot }}
+    </main>
+</div>
 </body>
 </html>

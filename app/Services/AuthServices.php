@@ -15,7 +15,7 @@ class AuthServices
         if (!$user) {
           throw new \Exception("email not found");
       }
-      if ( !Hash::check($userData['password'], $user->password)) {
+      if (!Hash::check($userData['password'], $user->password)) {
           throw new \Exception("The password not correct ");
       }
       return $user;

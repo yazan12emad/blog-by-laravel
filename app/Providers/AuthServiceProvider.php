@@ -2,18 +2,24 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use App\Models\User;
+use App\Policies\CategoryPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+
+class AuthServiceProvider extends ServiceProvider
 {
+    protected $policies = [
+        Category::class => CategoryPolicy::class,
+    ];
     /**
      * Register any application services.
      */
     public function register(): void
     {
-
+        //
     }
 
     /**
@@ -22,8 +28,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('view-admin', function($user){
-            return $user->isAdmin();
-
+           if($user->role == 'admin')
+            return true;
+                return false;
         });
     }
 }

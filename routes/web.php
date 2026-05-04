@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ideaController;
@@ -13,54 +15,58 @@ $homePage = function () {
 };
 
 Route::get('/', $homePage);
+
 Route::get('Home', $homePage);
 
-Route::view('contact', "contact");
+Route::get('/Blogs', [BlogController::class, 'index']);
 
-Route::view('about', "about");
+
+
+Route::get('/blog/{category}/{name}', function (\App\Models\Category $category, $name) {
+    dd($category, $name);
+})->name('blog.by.category');
+
+
 
 Route::view('notes', "notes");
 
 
-
 Route::middleware('auth')->group(function () {
 
-//index - show all ideas
     Route::get('ideas', [ideaController::class, 'index']);
-// create - show form
     Route::get('ideas/create', [ideaController::class, 'create']);
-//show - show one idea
     Route::get('ideas/{idea}', [ideaController::class, 'show']);
-// store idea
     Route::post('ideas', [ideaController::class, 'store']);
-// edit idea
     Route::get('ideas/{idea}/edit', [ideaController::class, 'edit']);
-// update idea
     Route::patch('ideas/{idea}', [ideaController::class, 'update']);
-//destroy
     Route::delete('ideas/{idea}', [ideaController::class, 'destroy']);
-//All the routes can be simplified to this line
+
 //Route::resource('ideas', ideaController::class);
 
     Route::delete('logout', [AuthController::class, 'logout']);
 
-
     Route::get('profile/{user}', [ProfileController::class, 'showProfile'])->name('profile');
-
     Route::patch('profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::patch('/category/update/{category}', [CategoryController::class, 'update'])->name('category.update');
+    Route::post('/category/create', [CategoryController::class, 'store'])->name('category.store');
+    Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
 });
 
-
-
 Route::middleware('guest')->group(function () {
-
     Route::get('register', [AuthController::class, 'showRegisterPage'])->name('register');
     Route::post('register', [AuthController::class, 'register']);
 
     Route::get('logIn', [AuthController::class, 'showLogInPage'])->name('LogIn');
     Route::post('logIn', [AuthController::class, 'LogIn']);
+
 });
+
+Route::get('/category', [CategoryController::class, 'showCategory'])->name('category.show');
+
+
+
 
 Route::fallback(function () {
     return redirect('Home');

@@ -28,15 +28,13 @@ public function update(UpdateProfileRequest $request , User $user , ProfileServi
 {
     $data = $request->validated();
 
-    if (auth()->id() !== $user->id) {
+    if (auth()->id() !== $user->id){
         abort(403);
     }
 
     if ($request->hasFile('profile_image')) {
         try {
-            $data['profile_image'] = $profileService->handleImageUpload($request->file('profile_image'),
-                $user->profile_image
-            );
+            $data['profile_image'] = $profileService->handleImageUpload($request->file('profile_image'), $user->profile_image);
         }
         catch (\Exception $e) {
             return back()->withErrors(['profile_image' => $e->getMessage()]);
@@ -50,14 +48,14 @@ public function update(UpdateProfileRequest $request , User $user , ProfileServi
     try {
         $wasChanged = $profileService->updateProfile($user, $data);
     } catch (\Exception $e) {
-        return back()->withErrors(['generalError' => $e->getMessage()]);
+        return back()->withErrors(['Failed' => $e->getMessage()]);
     }
 
     if (!$wasChanged) {
-        return back()->with('info', 'No changes were made.');
+        return back()->with('Pending', 'No changes were made.');
     }
 
-        return back()->with('info', 'Profile updated successfully!');
+        return back()->with('Success', 'Profile updated successfully!');
 }
 
 
