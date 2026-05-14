@@ -14,14 +14,19 @@ class Blog extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'author_id','title','body','category_id','status','image'
+        'author_id', 'title', 'body', 'category_id', 'status', 'image', 'short_desc'
     ];
 
-public function author(){
-    return $this->belongsTo(User::class, 'author_id');
-}
+    public function isOwnedBy(User $user){
+        return $this->author_id === $user->id;
+    }
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
 
-    public function Category(){
+    public function Category()
+    {
         return $this->belongsTo(Category::class, 'category_id');
     }
 

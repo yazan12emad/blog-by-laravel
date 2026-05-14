@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\PasswordRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -23,8 +24,8 @@ class UpdateProfileRequest extends FormRequest
                 'max:30',
                 Rule::unique('users', 'email')->ignore($this->route('user')->id),
             ],
-            'profile_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'password' => 'nullable|string|min:8|confirmed',
+            'profile_image' => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+            'password' => ['nullable','string','min:8','confirmed', new PasswordRules()]
         ];
     }
 

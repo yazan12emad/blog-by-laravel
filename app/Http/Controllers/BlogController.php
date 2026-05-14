@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBlog;
 use App\Http\Requests\UpdateBlog;
 use App\Models\Blog;
 use App\Models\Category;
@@ -10,31 +11,38 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    public function __construct(private BlogService $blogService)
-    {
-    }
-
+    public function __construct(private BlogService $blogService){}
     public function showBlogs()
     {
-        $blogs = Blog::with(['category', 'author'])->paginate(6);
+        $blogs = Blog::with(['category', 'author'])
+            ->where('status' , 'active')
+            ->orderBy('created_at', 'desc')
+            ->paginate(6);
+        $categories = Category::all();
 
         return view('blog.index', [
             'blogs' => $blogs,
+            'categories' => $categories,
         ]);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreBlog $request)
     {
-        //
+        $this->authorize('create', Blog::class);
+        try {
+            if ($request->hasFile('image')) {
+                $imagePath = $this->blogService->handleImages($request->file('image'));
+            }
+            $this->blogService->addBlog(array_merge($request->validated(), ['author_id' => auth()->id() , 'image' => $imagePath??'']));
+        }
+        catch (\Exception $exception){
+            return redirect()->route('blogs.show')->with('Failed', $exception->getMessage());
+        }
+
+        return redirect()->route('blogs.show')->with('Success', 'Blog created successfully');
+
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function showBlogDetails(Blog $blog)
     {
         $blog->load(['category', 'author']);
@@ -51,18 +59,19 @@ class BlogController extends Controller
         $blogs = Blog::with(['category', 'author'])
             ->where('category_id', $category->id)
             ->paginate(6);
+        $categories = Category::all();
+
         return view('blog.index', [
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'categories' => $categories,
         ]);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBlog $request, Blog $blog)
     {
-        $this->authorize('user-blog', $blog);
+//        $this->authorize('user-blog', $blog); Gate
+        $this->authorize('update', $blog); // policy
+
         try {
             $wasChanged = $this->blogService->updateBlog($blog, $request->validated());
             $message = $wasChanged ? 'Blog updated successfully.' : 'No changes were made.';
@@ -73,12 +82,10 @@ class BlogController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Blog $blog)
     {
-        $this->authorize('user-blog', $blog);
+//        $this->authorize('user-blog', $blog); Gate
+        $this->authorize('delete', $blog); // policy
         try {
             $this->blogService->deleteBlog($blog);
         } catch (\Exception $exception) {

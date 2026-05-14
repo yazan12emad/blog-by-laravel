@@ -28,7 +28,7 @@ class AuthController extends Controller
         }
         auth()->login($user);
         $request->session()->regenerate();
-        return redirect('/')->with('success', 'Registration successful!');
+        return redirect('/')->with('Success', 'Registration successful!');
     }
 
     public function showLogInPage()
@@ -61,14 +61,14 @@ class AuthController extends Controller
         auth()->login($user, $request->filled('remember'));
         $request->session()->regenerate();
 
-        return redirect('/')->with('success', 'Login successful!');
+        return redirect('/')->with('Success', 'Login successful!');
     }
 
     public function logout(Request $request)
     {
         $this->authServices->logOut($request);
 
-        return redirect('/')->with('success', 'Logged out successfully!');
+        return redirect('/')->with('Success', 'Logged out successfully!');
     }
 
 }

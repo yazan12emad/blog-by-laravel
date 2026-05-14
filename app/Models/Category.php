@@ -11,8 +11,9 @@ class Category extends Model
     /** @use HasFactory<CategoryFactory> */
     use HasFactory;
      protected $table = 'category';
+
     protected $fillable = [
-        'name','description' ,'admin_id'
+        'name','description' ,'admin_id' , 'author_id'
     ];
 
 }

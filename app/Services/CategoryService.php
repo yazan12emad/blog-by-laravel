@@ -12,15 +12,13 @@ class CategoryService
     public function addCategory(array $data )
     {
         if(!auth()->user()->isAdmin()){
-            throw new \Exception("Unauthorized: Only admin users can create categories.");
+            throw new \Exception("Unauthorized: Only admin users can create categories. _|_");
         }
-
-        $admin_user_id = auth()->id();
-
+        $admin_id = auth()->id();
            return Category::create([
             'name' => $data['name'],
             'description' => $data['description'],
-            'admin_id' => $admin_user_id,
+            'admin_id' => $admin_id,
         ]);
     }
     public function update(array $data, Category $category)

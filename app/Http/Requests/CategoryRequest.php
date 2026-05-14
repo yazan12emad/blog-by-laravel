@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -14,7 +15,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->isAdmin();
     }
 
     /**
@@ -25,8 +26,10 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:category,name',
-            'description' =>'nullable|string',
+            'name' => ['required','string','max:255'
+                , Rule::unique(Category::class,'name')
+                    ->ignore($this->category)], // if the same category its ok to be the same name
+            'description' =>['nullable','string'],
         ];
     }
 

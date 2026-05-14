@@ -10,8 +10,6 @@ use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
-
-
     public function showProfile(User $user)
     {
         if(auth()->id() !== $user->id) {

@@ -16,12 +16,10 @@ class CategoryPolicy
         return null;
     }
 
-
     public function viewAny(User $user): bool
     {
         return true;
     }
-
 
     /**
      * Determine whether the user can create models.
@@ -32,13 +30,13 @@ class CategoryPolicy
     }
 
 
-    public function update(User $user, Category $category): bool
+    public function update(User $user , Category $category): bool
     {
         return $user->isAdmin();
     }
 
 
-    public function delete(User $user, Category $category): bool
+    public function delete(User $user): bool
     {
         return $user->isAdmin();
     }

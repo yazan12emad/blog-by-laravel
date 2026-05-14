@@ -55,7 +55,35 @@
                 </div>
             </div>
         </div>
-        <x-status_message></x-status_message>
+        <x-status_message> </x-status_message>
+
+        @can('create', \App\Models\Blog::class)
+            <div class="flex flex-col gap-4 rounded-3xl border border-slate-800 bg-slate-900 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-base font-semibold text-white">Blog tools</p>
+                    <p class="mt-1 text-sm text-slate-400">Create a new blog post from this page.</p>
+                </div>
+
+                <x-create-blog-modal
+                    modal-id="create-blog"
+                    :action="route('blog.store')"
+                    :categories="$categories"
+                    button-text="Add new blog"
+                />
+            </div>
+
+        @endcan
+
+        @cannot('create', \App\Models\Blog::class)
+            <div class="flex flex-col gap-4 rounded-3xl border border-slate-800 w-fit bg-slate-900 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-base font-semibold text-white">To create your blog just log In with our web site
+                        <a href="{{route('LogIn')}}" class="ml-1 rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-200">
+                             Log In
+                        </a>
+                </div>
+            </div>
+        @endcannot
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse($blogs as $blog)
@@ -93,11 +121,12 @@
                         </p>
 
                         <div class="mt-6 flex flex-col gap-4 border-t border-slate-800 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                            <span class="rounded-full border border-slate-700 px-3 py-1 text-xs font-medium text-slate-300">
+                            <span class="rounded-full border border-slate-700 px-3 py-1 text-s font-medium text-slate-300">
                                 {{ $blog->category->name }}
                             </span>
 
-                            <div class="grid grid-cols-1 gap-3 sm:flex sm:items-center">
+                            <div class="grid grid-cols-1 gap-3 sm:flex sm:items-center transition-trasform duration-300 ease-in-out delay-50 hover:scale-115
+                              active:scale-100">
                                 <a href="{{ route('blog.show.details', $blog->id) }}"
                                    class="inline-flex min-h-11 items-center justify-center cursor-pointer rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-200">
                                     Read post

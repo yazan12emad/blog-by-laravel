@@ -5,14 +5,15 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlog extends FormRequest
+class StoreBlog extends FormRequest
 {
+    protected $stopOnFirstFailure = true;
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -23,26 +24,23 @@ class UpdateBlog extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:50',
             'body' => 'required|string',
-            'short_desc' => 'required|string|max:255',
+            'short_desc' => 'required|string|max:100',
             'category_id'=>'required|exists:category,id',
-            'status'=>'required|in:waiting,active,inactive',
             'image'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
     public function messages(): array{
         return [
             'title.required' => 'The title field is required.',
-            'title.max' => 'The title may not be greater than 255 characters.',
+            'title.max' => 'The title may not be greater than 50 characters.',
             'title.string' => 'The title must be a string.',
             'description.required' => 'The description field is required.',
             'description.max' => 'The description may not be greater than 50 characters.',
             'description.string' => 'The description must be a string.',
             'category_id.required' => 'The category field is required.',
             'category_id.exists' => 'The category does not exist.',
-            'status.required' => 'The status field is required.',
-            'status.in' => 'The status must be one of "waiting", "active", "rejected".',
             'image.required' => 'The image field is required.',
             'image.image' => 'The image must be a image.',
             'image.mimes' => 'The image must be a file of type: jpg, jpeg, png.',

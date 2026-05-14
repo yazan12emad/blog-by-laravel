@@ -54,4 +54,24 @@
     </main>
 </div>
 </body>
+<script>
+function togglePassword(){
+const input = document.getElementById('password');
+const openEye = document.getElementById('eyeOpen');
+const closeEye = document.getElementById('eyeClosed');
+
+if(input.type === 'password'){
+input.type = 'text';
+openEye.classList.add('hidden');
+closeEye.classList.remove('hidden');
+} else {
+input.type = 'password';
+openEye.classList.remove('hidden');
+closeEye.classList.add('hidden');
+}
+}
+
+</script>
+
+
 </html>

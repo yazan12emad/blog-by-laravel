@@ -76,9 +76,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 7.5A2.25 2.25 0 0 1 6 5.25h3.343a2.25 2.25 0 0 1 1.591.659l1.157 1.157a2.25 2.25 0 0 0 1.591.659H18A2.25 2.25 0 0 1 20.25 10v6A2.25 2.25 0 0 1 18 18.25H6A2.25 2.25 0 0 1 3.75 16V7.5Z"/>
                             </svg>
                         </div>
-                        <span class="rounded-full bg-slate-800 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                            Category
-                        </span>
                     </div>
 
                     <div class="mt-5">
