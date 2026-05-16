@@ -34,7 +34,7 @@
             </form>
         </div>
 
-        <form method="post" action="{{ $action }}" class="mt-6 space-y-5">
+        <form method="post" action="{{ $action }}" enctype="multipart/form-data" class="mt-6 space-y-5">
             @csrf
             @method('patch')
             <input type="hidden" name="id" value="{{ $blog->id }}">
@@ -67,6 +67,18 @@
                           class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-slate-500"
                           placeholder="Write the blog content">{{ $blog->body }}</textarea>
             </div>
+            <div class="space-y-2">
+                <label for="create-image-{{ $modalId }}" class="text-sm font-medium text-slate-300">Image</label>
+                <input id="create-image-{{ $modalId }}"
+                       type="file"
+                       name="image"
+                       accept="image/jpeg,image/png,image/jpg"
+                       class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition file:mr-4 file:rounded-xl file:border-0 file:bg-white file:px-4 file:py-2 file:text-sm file:font-semibold file:text-slate-900 focus:border-slate-500">
+                <p class="hidden text-sm font-medium text-rose-300" data-error-for="image"></p>
+                @error('image')
+                <p class="text-sm font-medium text-rose-300">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <div class="space-y-2">
@@ -85,27 +97,6 @@
                         @endforelse
                     </select>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="status-{{ $blog->id }}" class="text-sm font-medium text-slate-300">Status</label>
-                    <select id="status-{{ $blog->id }}"
-                            name="status"
-                            class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-slate-500">
-                        <option value="waiting" @selected($blog->status === 'waiting')>Waiting</option>
-                        <option value="active" @selected($blog->status === 'active')>Active</option>
-                        <option value="inactive" @selected($blog->status === 'inactive')>Inactive</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="space-y-2">
-                <label for="image-{{ $blog->id }}" class="text-sm font-medium text-slate-300">Image path</label>
-                <input id="image-{{ $blog->id }}"
-                       type="text"
-                       name="image"
-                       value="{{ $blog->image }}"
-                       class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none transition focus:border-slate-500"
-                       placeholder="images/blog-photo.jpg">
             </div>
 
             <div class="flex flex-col gap-3 border-t border-slate-800 pt-5 sm:flex-row sm:justify-end">

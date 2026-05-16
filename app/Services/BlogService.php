@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Blog;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class BlogService
 {
@@ -16,6 +18,7 @@ class BlogService
          throw new \Exception("Failed to create blog");
 
     }
+
     public function deleteBlog(Blog $blog)
     {
        if($blog->delete()){
@@ -25,18 +28,22 @@ class BlogService
     }
 
     public function updateBlog(Blog $blog,array $data){
-        $blog->update([
+        if(!$blog->update([
             'title'=>$data['title'],
             'short_desc'=>$data['short_desc'],
             'body'=>$data['body'],
             'category_id'=>$data['category_id'],
-            'status'=>$data['status']
-        ]);
+            'image'=>$data['image']??$blog->image]))
+            throw new \Exception("Failed to update blog");
+
         return $blog->wasChanged();
     }
 
-    public function handleImages($image){
+    public function handleImages(UploadedFile $image , ?string $oldImagePath = null): string{
         try {
+            if($oldImagePath && Storage::disk('public')->exists($oldImagePath)){
+                Storage::disk('public')->delete($oldImagePath);
+            }
             return $this->fileUploadService->uploadFile($image, 'Blog_upload_Images', 'public');
         }
         catch (\Exception $exception){

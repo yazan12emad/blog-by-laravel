@@ -71,9 +71,15 @@ class BlogController extends Controller
     {
 //        $this->authorize('user-blog', $blog); Gate
         $this->authorize('update', $blog); // policy
-
         try {
-            $wasChanged = $this->blogService->updateBlog($blog, $request->validated());
+            $data = $request->validated();
+
+            if($request->hasFile('image')){
+                $imagePath = $this->blogService->handleImages($request->file('image') ,$blog->image);
+                $data['image'] = $imagePath;
+            }
+
+            $wasChanged = $this->blogService->updateBlog($blog, $data);
             $message = $wasChanged ? 'Blog updated successfully.' : 'No changes were made.';
             return redirect()->route('blog.show.details', $blog->id)->with('Success', $message);
 

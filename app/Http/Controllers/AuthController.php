@@ -28,8 +28,8 @@ class AuthController extends Controller
         }
         auth()->login($user);
         $request->session()->regenerate();
-        return redirect('/')->with('Success', 'Registration successful!');
-    }
+        return redirect()->route('verification.notice')
+            ->with('Success', 'Account created successfully! Please verify your email.');}
 
     public function showLogInPage()
     {
@@ -70,5 +70,7 @@ class AuthController extends Controller
 
         return redirect('/')->with('Success', 'Logged out successfully!');
     }
+
+
 
 }

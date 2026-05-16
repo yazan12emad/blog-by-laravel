@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Notifications\VerifyEmailNotification;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
@@ -19,16 +20,20 @@ class AuthServices
           throw new \Exception("The password not correct ");
       }
       return $user;
-
   }
 
     public function registerUser($Data){
-        return  User::create([
+        $user = User::create([
             'name' => $Data['name'],
             'email' => $Data['email'],
             'password' => Hash::make($Data['password']),
         ]);
+          if(!$user){
+              throw new \Exception("failed to register");
+          }
+          $this->SendVarificationMessage($user);
 
+          return $user;
     }
 
      public function logOut (Request $request): void
@@ -37,6 +42,11 @@ class AuthServices
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+    }
+
+    public function SendVarificationMessage($user): void
+    {
+        $user->notify(new VerifyEmailNotification());
     }
 
 

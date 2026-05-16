@@ -27,7 +27,6 @@ class UpdateBlog extends FormRequest
             'body' => 'required|string',
             'short_desc' => 'required|string|max:255',
             'category_id'=>'required|exists:category,id',
-            'status'=>'required|in:waiting,active,inactive',
             'image'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
@@ -41,8 +40,6 @@ class UpdateBlog extends FormRequest
             'description.string' => 'The description must be a string.',
             'category_id.required' => 'The category field is required.',
             'category_id.exists' => 'The category does not exist.',
-            'status.required' => 'The status field is required.',
-            'status.in' => 'The status must be one of "waiting", "active", "rejected".',
             'image.required' => 'The image field is required.',
             'image.image' => 'The image must be a image.',
             'image.mimes' => 'The image must be a file of type: jpg, jpeg, png.',

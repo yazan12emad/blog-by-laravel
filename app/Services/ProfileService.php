@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Requests\UpdateProfileRequest;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
