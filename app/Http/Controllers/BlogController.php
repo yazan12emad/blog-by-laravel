@@ -18,11 +18,24 @@ class BlogController extends Controller
             ->where('status' , 'active')
             ->orderBy('created_at', 'desc')
             ->paginate(6);
+
         $categories = Category::all();
 
         return view('blog.index', [
             'blogs' => $blogs,
             'categories' => $categories,
+        ]);
+    }
+    public function showBlogDetails(Blog $blog)
+    {
+        $blog->load(['category', 'author' , 'comments'])
+            ->loadCount('likes')
+            ->loadCount('comments');
+        $categories = Category::all(); // lowercase
+
+        return view('blog.blogInDetails', [
+            'blog' => $blog,
+            'categories' => $categories, // lowercase
         ]);
     }
 
@@ -34,24 +47,11 @@ class BlogController extends Controller
                 $imagePath = $this->blogService->handleImages($request->file('image'));
             }
             $this->blogService->addBlog(array_merge($request->validated(), ['author_id' => auth()->id() , 'image' => $imagePath??'']));
-        }
-        catch (\Exception $exception){
+        } catch (\Exception $exception){
             return redirect()->route('blogs.show')->with('Failed', $exception->getMessage());
         }
 
         return redirect()->route('blogs.show')->with('Success', 'Blog created successfully');
-
-    }
-
-    public function showBlogDetails(Blog $blog)
-    {
-        $blog->load(['category', 'author']);
-        $categories = Category::all(); // lowercase
-
-        return view('blog.blogInDetails', [
-            'blog' => $blog,
-            'categories' => $categories, // lowercase
-        ]);
     }
 
     public function showBlogsByCategory(Blog $blog, Category $category)

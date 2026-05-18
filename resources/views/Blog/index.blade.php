@@ -120,10 +120,9 @@
                                 {{ $blog->category->name }}
                             </span>
 
-                            <div class="grid grid-cols-1 gap-3 sm:flex sm:items-center transition-trasform duration-300 ease-in-out delay-50 hover:scale-115
-                              active:scale-100">
+                            <div class="grid grid-cols-1 gap-3 sm:flex sm:items-center">
                                 <a href="{{ route('blog.show.details', $blog->id) }}"
-                                   class="inline-flex min-h-11 items-center justify-center cursor-pointer rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:bg-slate-200">
+                                   class="inline-flex min-h-11 items-center justify-center cursor-pointer rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition duration-300 ease-in-out hover:scale-105 hover:bg-slate-200 active:scale-100">
                                     Read post
                                 </a>
                             </div>

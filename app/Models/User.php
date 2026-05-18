@@ -36,8 +36,29 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function checkIfLiked(Blog $blog): bool
+    {
+        return $this->likes()->where('blog_id', $blog->id)->exists();
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function comments():hasMany
+    {
+        return $this->hasMany(Comments::class);
+    }
+
+
     public function isAdmin(): bool{
         return $this->role =='admin';
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->is_active != null;
     }
 
         public function getRoleAttribute(): string{

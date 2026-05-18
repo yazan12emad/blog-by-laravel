@@ -84,9 +84,20 @@
                     </div>
                 </div>
 
-                <aside class="space-y-4">
-                    <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5">
-                        <p class="text-xs uppercase tracking-[0.22em] text-slate-500">Author</p>
+	                <aside class="space-y-4">
+	                    <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5">
+	                        <p class="text-xs uppercase tracking-[0.22em] text-slate-500">Engagement</p>
+	                        <div class="mt-4">
+	                            <x-blog-like-button
+	                                :blog="$blog"
+	                                :liked="$blog->is_liked ?? false"
+	                                :likes-count="$blog->likes_count ?? 0"
+	                            />
+	                        </div>
+	                    </div>
+
+	                    <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5">
+	                        <p class="text-xs uppercase tracking-[0.22em] text-slate-500">Author</p>
                         <div class="mt-4 flex items-center gap-3">
                             <img src="{{ $blog->author?->profile_image_url }}"
                                  alt="{{ $blog->author?->name ?? 'Author' }}"
@@ -104,8 +115,7 @@
                             {{ $blog->category?->name ?? 'Uncategorized' }}
                         </p>
                     </div>
-
-                    @can('user-blog', $blog)
+                        @can('user-blog', $blog)
                         <div class="rounded-2xl border border-slate-800 bg-slate-950 p-5">
                             <p class="text-xs uppercase tracking-[0.22em] text-slate-500">Actions</p>
                             <div class="mt-4 grid gap-3">
@@ -129,6 +139,9 @@
                     @endcan
                 </aside>
             </div>
+            <x-blog-comment-section
+                :blog="$blog"
+            />
         </article>
     </section>
 </x-layout>

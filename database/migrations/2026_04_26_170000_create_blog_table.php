@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blogSeedes', function (Blueprint $table) {
+        Schema::create('blog', function (Blueprint $table) {
             $table->id()->primary()->autoIncrement();
             $table->unsignedBigInteger('author_id');
             $table->string('title');
@@ -23,10 +23,10 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')
-                ->on('category')->onDelete('cascade');
+                ->on('category')->cascadeOnDelete();
 
             $table->foreign('author_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('users')->cascadeOnDelete();
         });
     }
 

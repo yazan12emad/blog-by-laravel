@@ -3,12 +3,14 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
-// ───────────────────────────── public Routes  ───────────────────────────────────────────────────────────
+// ───────────────────────────── public Routes
 Route::get('Home', function () {
     return view('welcome', [
         'tasks' => [],
@@ -21,7 +23,7 @@ Route::get('/Blogs', [BlogController::class, 'showBlogs'])
 Route::get('/Category', [CategoryController::class, 'showCategory'])
     ->name('category.show');
 
-// ───────────────────────────── Guest Routes  ───────────────────────────────────────────────────────────
+// ───────────────────────────── Guest Routes
 Route::middleware('guest')->group(function () {
     // register
     Route::get('register', [AuthController::class, 'showRegisterPage'])
@@ -50,7 +52,7 @@ Route::middleware('guest')->group(function () {
 
 });
 
-// ───────────────────────────── Email verification Routes  ───────────────────────────────────────────────────────────
+// ───────────────────────────── Email verification Routes
 Route::middleware('auth')->group(function () {
     // Check your email notice page
     Route::get('/email/verify', [VerificationController::class, 'notice'])
@@ -67,7 +69,7 @@ Route::middleware('auth')->group(function () {
         ->name('verification.send');
 });
 
-// ───────────────────────────── Auth , varified email Routes  ───────────────────────────────────────────────────────────
+// ───────────────────────────── Auth , varified email Routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // log out
     Route::delete('logout', [AuthController::class, 'logout']);
@@ -94,6 +96,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('blog.update');
     Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])
         ->name('blog.destroy');
+    // Blog like
+    Route::post('Blog/{blog}/like', [LikeController::class, 'toggleLike'])
+        ->name('blog.toggle.like');
+    Route::delete('Blog/{blog}/like', [LikeController::class, 'destroy'])
+        ->name('blog.delete.like');
+    //Blog comments
+    Route::post('Blog/{blog}/Comments', [CommentsController::class, 'addComments'])
+        ->name('blog.add.comments');
+    Route::delete('Blog/{blog}/Comments/{comment}', [CommentsController::class, 'destroy'])
+        ->name('blog.delete.comments');
+
 });
 
 // ───────────────────────────── fallback Route  ───────────────────────────────────────────────────────────
