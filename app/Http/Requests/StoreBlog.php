@@ -24,11 +24,11 @@ class StoreBlog extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:50',
-            'body' => 'required|string',
-            'short_desc' => 'required|string|max:100',
-            'category_id'=>'required|exists:category,id',
-            'image'=>'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'title' => ['required','string','max:50'],
+            'body' => ['required','string'],
+            'short_desc' => ['required','string','max:100'],
+            'category_id'=>['required','exists:category,id'],
+            'image'=>['nullable','image','mimes:jpg,jpeg,png','max:2048'],
         ];
     }
     public function messages(): array{

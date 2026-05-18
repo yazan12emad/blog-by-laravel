@@ -57,7 +57,7 @@
                     B
                 </span>
                 <div class="leading-tight">
-                    <p class="text-sm font-semibold text-white sm:text-base">Blog Laravel</p>
+                    <p class="text-sm font-semibold text-white sm:text-base">Blog By Laravel</p>
                 </div>
             </a>
         </div>

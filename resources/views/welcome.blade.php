@@ -1,4 +1,4 @@
-<x-layout title="Home ">
+<x-layout title="Home | laravel">
     <x-status_message> </x-status_message>
     <section class="rounded-3xl border border-slate-800 bg-slate-900 px-6 py-10">
         <p class="text-sm font-semibold uppercase tracking-[0.24em] text-slate-400">Welcome</p>

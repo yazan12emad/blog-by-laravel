@@ -39,6 +39,7 @@
     </style>
 
     <section class="space-y-8">
+
         <div class="rounded-3xl border border-slate-800 bg-slate-900 px-6 py-8">
             <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-2xl">
@@ -48,13 +49,9 @@
                         Read short posts, browse new ideas, and find content from different categories in one clean view.
                     </p>
                 </div>
-
-                <div class="rounded-2xl border border-slate-800 bg-slate-950 px-5 py-4">
-                    <p class="text-xs uppercase tracking-[0.22em] text-slate-500">Total posts</p>
-                    <p class="mt-2 text-3xl font-bold text-white">{{ $blogs->total() }}</p>
-                </div>
             </div>
         </div>
+
         <x-status_message> </x-status_message>
 
         @can('create', \App\Models\Blog::class)
@@ -71,10 +68,9 @@
                     button-text="Add new blog"
                 />
             </div>
-
         @endcan
 
-        @cannot('create', \App\Models\Blog::class)
+        @guest
             <div class="flex flex-col gap-4 rounded-3xl border border-slate-800 w-fit bg-slate-900 px-5 py-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <p class="text-base font-semibold text-white">To create your blog just log In with our web site
@@ -83,7 +79,7 @@
                         </a>
                 </div>
             </div>
-        @endcannot
+        @endguest
 
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
             @forelse($blogs as $blog)
@@ -103,13 +99,12 @@
                                 </div>
                             </div>
                         @endif
-
                     </div>
 
                     <div class="p-6">
                         <div class="flex items-center justify-between gap-4 text-xs uppercase tracking-[0.18em] text-slate-500">
                             <span>Author: {{ $blog->author->name }}</span>
-                            <span>{{ $blog->created_at?->format('M d, Y') }}</span>
+                            <span>{{ $blog->created_at->format('M d, Y') }}</span>
                         </div>
 
                         <h2 class="blog-title mt-4 text-2xl font-semibold leading-8 text-white">

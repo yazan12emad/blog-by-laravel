@@ -12,7 +12,6 @@ class CategoryController extends Controller
 
     public function showCategory()
     {
-        $this->authorize('viewAny', Category::class);
 
         $category = Category::paginate(6);
         return view('category.show', [

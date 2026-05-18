@@ -4,7 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VerificationController;  // ← fix the namespace
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\VerificationController;
 use Illuminate\Support\Facades\Route;
 
 // ───────────────────────────── public Routes  ───────────────────────────────────────────────────────────
@@ -15,7 +16,6 @@ Route::get('Home', function () {
     ]);
 });
 
-Route::view('notes', 'notes');
 Route::get('/Blogs', [BlogController::class, 'showBlogs'])
     ->name('blogs.show');
 Route::get('/Category', [CategoryController::class, 'showCategory'])
@@ -31,6 +31,23 @@ Route::middleware('guest')->group(function () {
     Route::get('logIn', [AuthController::class, 'showLogInPage'])
         ->name('LogIn');
     Route::post('logIn', [AuthController::class, 'LogIn']);
+
+    // reset password
+    Route::get('forgot-password',[ResetPasswordController::class, 'showForgotPasswordPage'])
+        ->name('forgot-password.form');
+
+    Route::post('forgot-password',[ResetPasswordController::class, 'sendResetLinkEmail'])
+        ->middleware('throttle:6,1')
+        ->name('submit.forgot-password.form');
+
+    Route::get('reset-password',[ResetPasswordController::class, 'showResetPasswordPage'])
+        ->middleware('signed')
+        ->name('change-password.form');
+
+    Route::post('reset-password',[ResetPasswordController::class, 'resetPassword'])
+        ->middleware('throttle:6,1')
+        ->name('submit.reset-password.form');
+
 });
 
 // ───────────────────────────── Email verification Routes  ───────────────────────────────────────────────────────────
